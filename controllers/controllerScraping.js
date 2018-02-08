@@ -1,8 +1,9 @@
 const request = require('request');
 const cheerio = require('cheerio');
+const HttpStatus = require('http-status-codes')
 
 const listReadingScraping = (req, res) => {
-  let category = 'technology';
+  let category = req.body.category
   let url = `https://medium.com/tag/${category}`;
   request(url, function (error, response, html) {
     if (!error && response.statusCode == 200) {
@@ -10,10 +11,6 @@ const listReadingScraping = (req, res) => {
       let listArticles = [];
         $('div.streamItem').each(function(i, elementStream){ 
           let title = $(this).find('h3.graf').text();
-          // let figure = $(this).find('figure.graf');
-          // let aspectRatioPlaceholder = figure.find('div.aspectRatioPlaceholder')
-          // let aspectRatioPlaceholderfill = aspectRatioPlaceholder.next().find('img.progressiveMedia-canvas')
-          // console.log(aspectRatioPlaceholderfill.length)
 
           const metadata = {
             title: title,
@@ -21,15 +18,20 @@ const listReadingScraping = (req, res) => {
           };
           listArticles.push(metadata); 
         });
-        // $('div.progressiveMedia img.progressiveMedia-image').each(function(j, elementImg){
-        //   listArticles[j].img = $(this).attr('src');
-        // });
         $('div.postArticle-readMore a.button').each(function(k, elementUrl){
           listArticles[k].url = $(this).attr('href');
         });
-        res.status(200).json({
-          listArticles
+        res.status(HttpStatus.OK).json({
+          messages: 'List Categories',
+          category: req.body.category,
+          data: listArticles
         })
+    }else{
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        messages: 'List Categories Error',
+        data: err,
+        error: HttpStatus.getStatusText(HttpStatus.INTERNAL_SERVER_ERROR)
+      })
     }
   })
 }

@@ -3,6 +3,6 @@ const router = express.Router();
 const { listReadingScraping } = require('../controllers/controllerScraping');
 
 /* GET users listing. */
-router.get('/list', listReadingScraping);
+router.post('/', listReadingScraping);
 
 module.exports = router;

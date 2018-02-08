@@ -1,15 +1,15 @@
 const express = require('express')
-const router = express.Router()
 const HttpStatus = require('http-status-codes')
 const ObjectID = require('mongodb').ObjectID
-const dialogflow = require('dialogflow');
+const dialogflow = require('dialogflow')
+const { listReadingScraping } = require('./controllerScraping')
 
 const chatBot = (req, res) => {
   const projectId = process.env.CHATBOT_PROJECT
-  const sessionId = 'idUser001'
+  const sessionId = 'asdasd'
   const query = req.body.chat
   const languageCode = 'en-US'
-   
+  console.log(query) 
   const sessionClient = new dialogflow.SessionsClient();
    
   const sessionPath = sessionClient.sessionPath(projectId, sessionId);
@@ -27,18 +27,16 @@ const chatBot = (req, res) => {
   sessionClient
     .detectIntent(request)
     .then(responses => {
-      console.log('Detected intent');
+      console.log(response)
       const result = responses[0].queryResult;
-      console.log(`  Query: ${result.queryText}`);
-      console.log(result);
-      if (result.intent) {
-        console.log(`  Intent: ${result.intent.displayName}`);
-      } else {
-        console.log(`  No intent matched.`);
+      let parameter = ''
+      if(result.parameters.fields['categories-original']){
+        parameter = result.parameters.fields['categories-original'].stringValue
       }
       res.status(HttpStatus.OK).json({
         messages: 'Chat BOT',
-        data: result.queryText
+        data: result.fulfillmentText,
+        category: parameter
       })
     })
     .catch(err => {

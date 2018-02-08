@@ -30,7 +30,7 @@ const setReadingList = (req, res) => {
           idUser: '1',
           title: metadata.title,
           author: metadata.author,
-          category: 'tecnology',
+          category: req.body.category,
           description: metadata.description,
           article: metadata.text,
           link: metadata.url,
@@ -38,9 +38,9 @@ const setReadingList = (req, res) => {
         });
 
         newReadins.save()
-         .then(() => {
+         .then( result => {
           res.status(200).json({
-            data: newReadins
+            data: result
           })
          })
          .catch(err => console.log(err))
