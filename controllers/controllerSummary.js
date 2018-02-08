@@ -1,5 +1,5 @@
 const SummaryTools = require('node-tldr');
-
+const stringSimilarity = require('string-similarity');
 const Readings = require('../models/readingListModels');
 const Summarys = require('../models/summaryModels');
 
@@ -23,11 +23,17 @@ const addSummaryArticle = (req, res) => {
           if (failure) {
               console.log("An error occured! " + error);
           }
+
+          let summaryArticle = title.summary.join(' ');
+
+          let result = stringSimilarity.compareTwoStrings(summaryArticle,summaryUser);
+          
           let newSummary = new Summarys({
             idUser: '1',
             idReading: req.params.id,
-            summaryArticle: title.summary.join(' '),
-            summaryUser: summaryUser
+            summaryArticle: summaryArticle,
+            summaryUser: summaryUser,
+            similarity: result
           })
           newSummary.save()
            .then((data) => {
