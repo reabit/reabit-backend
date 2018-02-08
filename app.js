@@ -3,8 +3,12 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
-mongoose.connect(`mongodb://triamri:123456@ds229008.mlab.com:29008/readit`)
 const app = express();
+
+
+require('dotenv').config()
+
+mongoose.connect(process.env.DATABASE_MONGO)
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

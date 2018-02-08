@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Summary = require('../controllers/controllerSummary');
+const { listSummaryArticle, addSummaryArticle, editSummaryArticle } = require('../controllers/controllerSummary');
 
 /* GET users listing. */
-router.get('/list', Summary.listSummaryArticle);
-router.post('/add/:id', Summary.addSummaryArticle);
-router.put('/edit/:id', Summary.editSummaryArticle);
+router.get('/list', listSummaryArticle);
+router.post('/add/:id', addSummaryArticle);
+router.put('/edit/:id', editSummaryArticle);
 
 module.exports = router;

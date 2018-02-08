@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { } = require('../controllers/chatbot')
+const { chatBot } = require('../controllers/chatbot')
 
-router.get('/', Movie.get)
-// router.get('/:id', Movie.getSingle)
-router.post('/', Movie.create)
-// router.put('/:id', Movie.update)
-// router.delete('/:id', Movie.delete)
+router.post('/', chatBot)
 
 
 module.exports = router
