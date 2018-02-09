@@ -10,10 +10,14 @@ require('dotenv').config()
 
 mongoose.connect(process.env.DATABASE_MONGO_LOCALHOST)
 
+// mongoose.connect('mongodb://triamri:123456@ds229008.mlab.com:29008/readit')
+
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/users', require('./routes/users'));
 app.use('/cheerio', require('./routes/cheerio'));
 app.use('/readings', require('./routes/readings'));
 app.use('/summarys', require('./routes/summarys'));
