@@ -2,6 +2,7 @@ const SummaryTools = require('node-tldr');
 const stringSimilarity = require('string-similarity');
 const Readings = require('../models/readingListModels');
 const Summarys = require('../models/summaryModels');
+const translate = require('./translation')
 
 const listSummaryArticle = (req, res) => {
   Summarys.find({

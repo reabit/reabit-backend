@@ -7,7 +7,7 @@ const UserReadingList = new Schema({
   },
   title: {
     type: String,
-    required: [true,'Title Is Require']
+    required: [true,'Title Is Required']
   },
   author: {
     type: String,
@@ -15,7 +15,7 @@ const UserReadingList = new Schema({
   },
   category: {
     type: String,
-    required: [true,'Category Is Require']
+    required: [true,'Category Is Required']
   },
   description: {
     type: String
@@ -23,11 +23,11 @@ const UserReadingList = new Schema({
   article: [String],
   link: {
     type: String,
-    required: [true,'Link Is Require']
+    required: [true,'Link Is Required']
   },
   img: {
     type: String,
-    required: [true,'Img Is Require']
+    required: [true,'Img Is Required']
   },
   date: {
     type: Date,

@@ -2,9 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-
-mongoose.connect(`mongodb://triamri:123456@ds229008.mlab.com:29008/readit`)
+const cors = require('cors')
 const app = express();
+app.use(cors())
+
+require('dotenv').config()
+
+mongoose.connect(process.env.DATABASE_MONGO_LOCALHOST)
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -13,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/cheerio', require('./routes/cheerio'));
 app.use('/readings', require('./routes/readings'));
 app.use('/summarys', require('./routes/summarys'));
+app.use('/chatbot', require('./routes/chatbot'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
