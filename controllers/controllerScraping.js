@@ -5,6 +5,7 @@ const HttpStatus = require('http-status-codes')
 const listReadingScraping = (req, res) => {
   let category = req.body.category
   let url = `https://medium.com/tag/${category}`;
+  console.log(category, 'from category')
   request(url, function (error, response, html) {
     if (!error && response.statusCode == 200) {
       let $ = cheerio.load(html);
@@ -29,7 +30,7 @@ const listReadingScraping = (req, res) => {
     }else{
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
         messages: 'List Categories Error',
-        data: err,
+        data: error,
         error: HttpStatus.getStatusText(HttpStatus.INTERNAL_SERVER_ERROR)
       })
     }
