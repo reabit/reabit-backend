@@ -27,17 +27,29 @@ const chatBot = (req, res) => {
   sessionClient
     .detectIntent(request)
     .then(responses => {
-      console.log(response)
       const result = responses[0].queryResult;
       let parameter = ''
       if(result.parameters.fields['categories-original']){
         parameter = result.parameters.fields['categories-original'].stringValue
+        res.status(HttpStatus.OK).json({
+          messages: 'Chat BOT',
+          data: result.fulfillmentText,
+          category: parameter
+        })
+      }else if(result.parameters.fields['summary-name']){
+        parameter = result.parameters.fields['summary-name'].stringValue
+        res.status(HttpStatus.OK).json({
+          messages: 'Chat BOT',
+          data: result.fulfillmentText,
+          summary: parameter
+        })
+      }else{
+        res.status(HttpStatus.OK).json({
+          messages: 'Chat BOT',
+          data: result.fulfillmentText,
+          category: parameter
+        })
       }
-      res.status(HttpStatus.OK).json({
-        messages: 'Chat BOT',
-        data: result.fulfillmentText,
-        category: parameter
-      })
     })
     .catch(err => {
       console.error('ERROR:', err);
