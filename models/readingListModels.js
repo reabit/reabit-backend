@@ -29,15 +29,15 @@ const UserReadingList = new Schema({
     type: String,
     required: [true,'Img Is Required']
   },
-  date: {
-    type: Date,
-    default: Date.now
-  },
   statusRead: {
     type: Boolean,
     default: false
+  },
+  statusSummary: {
+    type: Boolean,
+    default: false
   }
-});
+}, { timestamps: {} } );
 
 const Readings = mongoose.model('Readings', UserReadingList);
 

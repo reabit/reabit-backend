@@ -1,13 +1,16 @@
-const SummaryTools = require('node-tldr');
 const stringSimilarity = require('string-similarity');
 const Readings = require('../models/readingListModels');
 const Summarys = require('../models/summaryModels');
-const translate = require('./translation')
+const unirest = require('unirest')
+const { detectLanguage, translateLanguage } = require('../helpers/translation')
 
 const listSummaryArticle = (req, res) => {
   Summarys.find({
     idUser: '1'
-  }).then((respones) => {
+  })
+  .populate('idReading')
+  .exec()
+  .then((respones) => {
     res.status(200).json({
       data: respones
     })
@@ -19,31 +22,45 @@ const addSummaryArticle = (req, res) => {
   let summaryUser = req.body.summary;
   Readings.findById(req.params.id)
     .then((data) => {
-      let url = data.link;
-      SummaryTools.summarize(url, function(title, summary, failure) {
-          if (failure) {
-              console.log("An error occured! " + error);
-          }
-
-          let summaryArticle = title.summary.join(' ');
-
-          let result = stringSimilarity.compareTwoStrings(summaryArticle,summaryUser);
-          
+      let text = data.article.join('')
+      console.log(text, '------------------> data article in db')
+      unirest.post('https://textanalysis-text-summarization.p.mashape.com/text-summarizer')
+      .headers({
+        'X-Mashape-Authorization': process.env.TEXT_SUMMARIZATION,
+        'Content-Type': 'application/json'
+      })
+      .send(`{"url":"", "text":"${text}", "sentnum" : 8}`)
+      .end(function (response) {
+        let resultSummary = response.body.sentences.join('')
+        console.log(resultSummary,' ===================================> summary system')
+        Promise.all([
+          translateLanguage(resultSummary),
+          translateLanguage(summaryUser)
+        ])
+        .then(resultTranslate => {
+          console.log(resultTranslate, '---------------------------------------> result translate')
+          let compareSummary = stringSimilarity.compareTwoStrings(resultTranslate[0], resultTranslate[1]) > 0.5 ? true : false
           let newSummary = new Summarys({
             idUser: '1',
             idReading: req.params.id,
-            summaryArticle: summaryArticle,
+            summaryArticle: resultTranslate[0],
             summaryUser: summaryUser,
-            similarity: result
+            similarity: compareSummary
           })
-          newSummary.save()
-           .then((data) => {
+          Promise.all([
+            Readings.findByIdAndUpdate(req.params.id, {
+              statusSummary: true
+            }),
+            newSummary.save()
+          ])
+          .then((data) => {
             res.status(200).json({
-              data: data
+              data: data[1]
             })
-           })
-           .catch(err => console.log(err))
-      });
+          })
+          .catch(err => console.log(err))          
+        })
+      })
     })
     .catch(err => console.log(err))
 }
