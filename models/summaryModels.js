@@ -20,7 +20,8 @@ const schemaSummary = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  similarity: String
 })
 
 const Summarys = mongoose.model('Summarys', schemaSummary);
