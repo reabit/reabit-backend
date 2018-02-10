@@ -6,7 +6,7 @@ const { detectLanguage, translateLanguage } = require('../helpers/translation')
 
 const listSummaryArticle = (req, res) => {
   Summarys.find({
-    idUser: '1'
+    idUser: req.decoded._id
   })
   .populate('idReading')
   .exec()
@@ -41,7 +41,7 @@ const addSummaryArticle = (req, res) => {
           console.log(resultTranslate, '---------------------------------------> result translate')
           let compareSummary = stringSimilarity.compareTwoStrings(resultTranslate[0], resultTranslate[1]) > 0.5 ? true : false
           let newSummary = new Summarys({
-            idUser: '1',
+            idUser: req.decoded._id,
             idReading: req.params.id,
             summaryArticle: resultTranslate[0],
             summaryUser: summaryUser,
