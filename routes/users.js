@@ -3,6 +3,6 @@ const router = express.Router();
 const { loginUser } = require('../controllers/controllerUser');
 
 /* GET users listing. */
-router.get('/login', loginUser);
+router.post('/login', loginUser);
 
 module.exports = router;

@@ -40,7 +40,7 @@ const setReadingList = (req, res) => {
               metadata.text.push($(elementP).text())
             })
           let newReadins = new Readings({
-            idUser: '1',
+            idUser: req.decoded._id,
             title: metadata.title,
             author: metadata.author,
             category: req.body.category,
@@ -65,10 +65,12 @@ const setReadingList = (req, res) => {
   })
 }
 const readingList = (req, res) => {
+  console.log(req.decoded)
   Readings.find({
-    idUser: req.params.id
+    idUser: req.decoded._id
   })
     .then(response => {
+      console.log(response)
       res.status(200).json({
         data: response
       })

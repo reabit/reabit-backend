@@ -2,13 +2,13 @@ const User = require('../models/userModel');
 
 const loginUser = (req, res) => {
   User.findOne({
-    email: req.headers.email
+    email: req.body.email
   }).then((respone) => {
     if(!respone){
       let newUser = new User({
-        name: req.headers.name,
-        email: req.headers.email,
-        img: req.headers.photoURL
+        name: req.body.name,
+        email: req.body.email,
+        img: req.body.photoURL
       })
 
       newUser.save()
@@ -20,7 +20,6 @@ const loginUser = (req, res) => {
         })
         .catch(err => console.log(err))
     } else {
-      let data
       res.status(200).json({
         msg: 'lama',
         user: respone
