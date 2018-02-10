@@ -22,6 +22,7 @@ app.use('/cheerio', require('./routes/cheerio'));
 app.use('/readings', require('./routes/readings'));
 app.use('/summarys', require('./routes/summarys'));
 app.use('/chatbot', require('./routes/chatbot'))
+app.use('/history', require('./routes/history'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
