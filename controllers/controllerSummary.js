@@ -5,6 +5,7 @@ const unirest = require('unirest')
 const { detectLanguage, translateLanguage } = require('../helpers/translation')
 
 const listSummaryArticle = (req, res) => {
+  console.log(req.decoded._id)
   Summarys.find({
     idUser: req.decoded._id
   })
