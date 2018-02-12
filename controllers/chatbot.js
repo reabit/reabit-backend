@@ -4,7 +4,14 @@ const ObjectID = require('mongodb').ObjectID
 const dialogflow = require('dialogflow')
 const { listReadingScraping } = require('./controllerScraping')
 
+const Storage = require('@google-cloud/storage')
+const storage = Storage({
+  keyFilename: '/home/andrey_amrulloh/hacktiv8/keyfile.json'
+})
+
+
 const chatBot = (req, res) => {
+  
   const projectId = process.env.CHATBOT_PROJECT
   const sessionId = 'asdasd'
   const query = req.body.chat
@@ -15,6 +22,7 @@ const chatBot = (req, res) => {
   const sessionPath = sessionClient.sessionPath(projectId, sessionId);
    
   const request = {
+    keyFilename: '/home/andrey_amrulloh/hacktiv8/keyfile.json',
     session: sessionPath,
     queryInput: {
       text: {
