@@ -4,13 +4,15 @@ const cheerio = require('cheerio')
 const Readings = require('../models/readingListModels')
 
 const setReadingList = (req, res) => {
-  let url = req.body.url
+  console.log('from controller')
+  let indexParamsSource = req.body.url.indexOf('?source=-')
+  let url = req.body.url.substring(0, indexParamsSource)
   Readings.findOne({
-    link: url.replace('?source=---------0----------------', '')
+    link: url,
+    idUser: req.decoded.email
   }).then(result => {
     console.log(result)
     if (result) {
-      console.log(result)
       res.status(200).json({
         data: result
       })
