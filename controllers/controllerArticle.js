@@ -96,8 +96,23 @@ const readingDetail = (req, res) => {
     .catch(err => console.log(err))
 }
 
+const readingDelete = (req, res) => {
+  Readings.remove(
+    {
+      _id: req.params.id
+    }
+  )
+    .then(data => {
+      res.status(200).json({
+        data: data
+      })
+    })
+    .catch(err => console.log(err))
+}
+
 module.exports = {
   setReadingList,
   readingList,
-  readingDetail
+  readingDetail,
+  readingDelete
 }
