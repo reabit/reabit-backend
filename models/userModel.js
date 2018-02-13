@@ -7,7 +7,8 @@ const userModel = new Schema({
     type: String
   },
   email: {
-    type: String
+    type: String,
+    required: true
   },
   img: {
     type: String
