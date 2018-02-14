@@ -21,7 +21,8 @@ const schemaSummary = new Schema({
     type: Date,
     default: Date.now
   },
-  similarity: String
+  similarity: String,
+  numberSimilarity: Number
 })
 
 const Summarys = mongoose.model('Summarys', schemaSummary);

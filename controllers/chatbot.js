@@ -51,6 +51,20 @@ const chatBot = (req, res) => {
           data: result.fulfillmentText,
           summary: parameter
         })
+      }else if(result.parameters.fields['help-parameter']){
+        res.status(HttpStatus.OK).json({
+          messages: 'Chat BOT',
+          data: result.fulfillmentText,
+          help: 'help'
+        })
+      }else if(result.parameters.fields['navigation-parameter']){
+        parameter = result.parameters.fields['navigation-parameter'].stringValue
+        res.status(HttpStatus.OK).json({
+          messages: 'Chat BOT',
+          data: result.fulfillmentText,
+          navigation: parameter 
+        })
+      
       }else{
         res.status(HttpStatus.OK).json({
           messages: 'Chat BOT',
