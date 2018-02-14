@@ -9,8 +9,6 @@ const listSummaryArticle = (req, res) => {
   Summarys.find({
     idUser: req.decoded._id
   })
-  .populate('idReading')
-  .exec()
   .then((respones) => {
     res.status(200).json({
       data: respones
@@ -41,12 +39,14 @@ const addSummaryArticle = (req, res) => {
         .then(resultTranslate => {
           console.log(resultTranslate, '---------------------------------------> result translate')
           let compareSummary = stringSimilarity.compareTwoStrings(resultTranslate[0], resultTranslate[1]) > 0.5 ? true : false
+          let numberCompareSummary = stringSimilarity.compareTwoStrings(resultTranslate[0], resultTranslate[1])
           let newSummary = new Summarys({
             idUser: req.decoded._id,
             idReading: req.params.id,
             summaryArticle: resultTranslate[0],
             summaryUser: summaryUser,
-            similarity: compareSummary
+            similarity: compareSummary,
+            numberSimilarity: numberCompareSummary
           })
           Promise.all([
             Readings.findByIdAndUpdate(req.params.id, {

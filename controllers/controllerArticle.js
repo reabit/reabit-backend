@@ -99,6 +99,7 @@ const readingDetail = (req, res) => {
 }
 
 const readingDelete = (req, res) => {
+  console.log('ON HERE ========================++>>>>>>>>>>>>')
   Readings.remove(
     {
       _id: req.params.id
