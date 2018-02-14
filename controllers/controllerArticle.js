@@ -4,14 +4,14 @@ const cheerio = require('cheerio')
 const Readings = require('../models/readingListModels')
 
 const setReadingList = (req, res) => {
-  console.log('from controller')
+  // console.log('from controller')
   let indexParamsSource = req.body.url.indexOf('?source=-')
   let url = req.body.url.substring(0, indexParamsSource)
   Readings.findOne({
     link: url,
     idUser: req.decoded.email
   }).then(result => {
-    console.log(result)
+    // console.log(result)
     if (result) {
       res.status(200).json({
         data: result
@@ -67,12 +67,12 @@ const setReadingList = (req, res) => {
   })
 }
 const readingList = (req, res) => {
-  console.log(req.decoded)
+  // console.log(req.decoded)
   Readings.find({
     idUser: req.decoded._id
   })
     .then(response => {
-      console.log(response)
+      // console.log(response)
       res.status(200).json({
         data: response
       })

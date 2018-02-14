@@ -6,16 +6,16 @@ const cors = require('cors')
 const app = express();
 app.use(cors())
 
-require('dotenv').config()
-console.log(process, 'erakodakodkawodkdo')
-mongoose.connection.openUri(process.env.DATABASE_MONGO_LOCALHOST);
-mongoose.Promise = global.Promise;
-mongoose.connection.once('open', () => {
-  console.log('mongoose connection success');
-}).on('error', (error) => {
-  console.log('connection error', error);
-})
-// mongoose.connect('mongodb://triamri:123456@ds229008.mlab.com:29008/readit')
+// require('dotenv').config()
+// console.log(process, 'erakodakodkawodkdo')
+// mongoose.connection.openUri(process.env.DATABASE_MONGO_LOCALHOST);
+// mongoose.Promise = global.Promise;
+// mongoose.connection.once('open', () => {
+//   console.log('mongoose connection success');
+// }).on('error', (error) => {
+//   console.log('connection error', error);
+// })
+mongoose.connect('mongodb://localhost:27017/reabit')
 
 
 app.use(logger('dev'));

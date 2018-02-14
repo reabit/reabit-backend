@@ -18,7 +18,7 @@ const loginUser = (req, res) => {
             user: data
           })
         })
-        .catch(err => console.log(err))
+        .catch(err => res.status(500).send(err))
     } else {
       res.status(200).json({
         msg: 'lama',
@@ -26,7 +26,7 @@ const loginUser = (req, res) => {
       })
     }
   })
-  .catch(err => console.log(err));
+  .catch(err => res.status(500).send(err))
 }
 
 module.exports = {
